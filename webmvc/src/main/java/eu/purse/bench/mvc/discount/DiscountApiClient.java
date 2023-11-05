@@ -1,5 +1,7 @@
 package eu.purse.bench.mvc.discount;
 
+import eu.purse.bench.model.discount.DiscountApplication;
+import eu.purse.bench.model.discount.DiscountQuote;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 

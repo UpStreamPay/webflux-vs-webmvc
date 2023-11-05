@@ -1,7 +1,11 @@
 package eu.purse.bench.mvc;
 
+import eu.purse.bench.model.Customer;
+import eu.purse.bench.model.Product;
+import eu.purse.bench.model.PurchaseOrder;
+import eu.purse.bench.model.PurchaseOrderApplication;
+import eu.purse.bench.model.discount.DiscountApplication;
 import eu.purse.bench.mvc.discount.DiscountApiClient;
-import eu.purse.bench.mvc.discount.DiscountApplication;
 import java.util.ArrayList;
 import org.springframework.web.bind.annotation.*;
 

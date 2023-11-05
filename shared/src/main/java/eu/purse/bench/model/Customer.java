@@ -1,4 +1,4 @@
-package eu.purse.bench.mvc;
+package eu.purse.bench.model;
 
 import java.time.LocalDate;
 

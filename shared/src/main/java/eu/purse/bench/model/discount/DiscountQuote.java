@@ -1,3 +1,3 @@
-package eu.purse.bench.mvc.discount;
+package eu.purse.bench.model.discount;
 
 public record DiscountQuote(Integer discountAmount) {}
