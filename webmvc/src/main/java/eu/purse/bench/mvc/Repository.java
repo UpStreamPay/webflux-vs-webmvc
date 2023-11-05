@@ -2,6 +2,10 @@ package eu.purse.bench.mvc;
 
 import static java.util.Map.of;
 
+import eu.purse.bench.model.Customer;
+import eu.purse.bench.model.Product;
+import eu.purse.bench.model.PurchaseOrder;
+import eu.purse.bench.model.PurchaseOrderApplication;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;

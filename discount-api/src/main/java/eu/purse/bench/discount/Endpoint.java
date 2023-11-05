@@ -14,7 +14,7 @@ public class Endpoint {
                 .mapToInt(item -> item.product().unitPrice() * item.quantity())
                 .sum();
         var discount = random.nextInt(totalAmount);
-        Thread.sleep(1000L);
+        Thread.sleep(random.nextInt(1000));
         return new DiscountQuote(discount);
     }
 }

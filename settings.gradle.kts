@@ -8,7 +8,9 @@ pluginManagement {
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version("0.4.0")
 }
+include("shared")
 include("webmvc")
+include("webflux")
 include("discount-api")
 include("data-generator")
 include("load-test")

@@ -63,7 +63,7 @@ public class LoadSimulation extends Simulation {
     ScenarioBuilder users = scenario("Users").exec(browse);
 
     {
-        setUp(users.injectOpen(incrementUsersPerSec(20)
+        setUp(users.injectOpen(incrementUsersPerSec(100)
                         .times(5)
                         .eachLevelLasting(20)
                         .separatedByRampsLasting(20)

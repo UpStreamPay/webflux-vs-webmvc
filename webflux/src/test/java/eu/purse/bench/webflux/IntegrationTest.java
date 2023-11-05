@@ -1,7 +1,8 @@
-package eu.purse.bench.mvc;
+package eu.purse.bench.webflux;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+import io.r2dbc.spi.ConnectionFactory;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterEach;
@@ -12,15 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.r2dbc.connection.init.ScriptUtils;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import reactor.core.publisher.Mono;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ActiveProfiles("test")
@@ -31,12 +34,20 @@ class IntegrationTest {
 
     @Autowired
     private WebTestClient webTestClient;
+    @Autowired
+    private ConnectionFactory connectionFactory;
+
+    ClassPathResource sqlScript = new ClassPathResource("test-data.sql");
 
     MockWebServer server = new MockWebServer();
 
     @BeforeEach
     public void setUp() throws Exception {
         server.start(8888);
+        Mono.from(connectionFactory.create())
+                .flatMap(connection -> ScriptUtils.executeSqlScript(connection, sqlScript))
+                .block();
+
     }
 
     @AfterEach
@@ -49,7 +60,6 @@ class IntegrationTest {
     static PostgreSQLContainer<?> pg = new PostgreSQLContainer<>("postgres:15");
 
     @Test
-    @Sql("/test-data.sql")
     void should_get_product_by_id() {
         webTestClient
                 .get()
@@ -70,7 +80,6 @@ class IntegrationTest {
     }
 
     @Test
-    @Sql("/test-data.sql")
     void should_get_customer_by_id() {
         webTestClient
                 .get()
@@ -92,7 +101,6 @@ class IntegrationTest {
     }
 
     @Test
-    @Sql("/test-data.sql")
     void should_create_order() {
         server.enqueue(new MockResponse()
                 .addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
