@@ -9,6 +9,7 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version("0.4.0")
 }
 include("shared")
+include("web-test")
 include("webmvc")
 include("webflux")
 include("discount-api")
