@@ -9,7 +9,6 @@ dependencies {
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation(project(":shared"))
-//    developmentOnly("org.springframework.boot:spring-boot-devtools")
     developmentOnly("org.springframework.boot:spring-boot-docker-compose")
     implementation("org.flywaydb:flyway-core")
     runtimeOnly("org.postgresql:postgresql")

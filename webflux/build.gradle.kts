@@ -21,5 +21,4 @@ dependencies {
     testImplementation("org.testcontainers:postgresql:1.19.1")
     testImplementation("org.testcontainers:r2dbc:1.19.1")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.11.0")
-
 }

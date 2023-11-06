@@ -43,7 +43,7 @@ class IntegrationTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        server.start(8081);
+        server.start(8888);
         Mono.from(connectionFactory.create())
                 .flatMap(connection -> ScriptUtils.executeSqlScript(connection, sqlScript))
                 .block();

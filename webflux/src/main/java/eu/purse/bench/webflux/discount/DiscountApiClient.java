@@ -1,5 +1,6 @@
 package eu.purse.bench.webflux.discount;
 
+import eu.purse.bench.configuration.MyConfiguration;
 import eu.purse.bench.model.discount.DiscountApplication;
 import eu.purse.bench.model.discount.DiscountQuote;
 import org.springframework.stereotype.Component;
@@ -11,8 +12,8 @@ public class DiscountApiClient {
 
     final WebClient webClient;
 
-    public DiscountApiClient(WebClient.Builder builder) {
-        this.webClient = builder.baseUrl("http://localhost:8081").build();
+    public DiscountApiClient(WebClient.Builder builder, MyConfiguration configuration) {
+        this.webClient = builder.baseUrl(configuration.getDiscountApiUri().toString()).build();
     }
 
     public Mono<Integer> getDiscountAmount(DiscountApplication discountApplication) {
