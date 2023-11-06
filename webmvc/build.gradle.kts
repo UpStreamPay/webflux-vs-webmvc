@@ -13,10 +13,8 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    testImplementation(testFixtures(project(":web-test")))
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql:1.19.1")
-    testImplementation("org.springframework.boot:spring-boot-starter-webflux")
-    testImplementation("com.squareup.okhttp3:mockwebserver:4.11.0")
 }

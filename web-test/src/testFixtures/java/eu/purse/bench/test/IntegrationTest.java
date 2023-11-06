@@ -1,6 +1,4 @@
-package eu.purse.bench.webflux;
-
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+package eu.purse.bench.test;
 
 import io.r2dbc.spi.ConnectionFactory;
 import okhttp3.mockwebserver.MockResponse;
@@ -25,12 +23,14 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.core.publisher.Mono;
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @Testcontainers
 @AutoConfigureWebTestClient
-class IntegrationTest {
+public abstract class IntegrationTest {
 
     @Autowired
     private WebTestClient webTestClient;
