@@ -4,8 +4,7 @@ plugins {
 }
 
 dependencies {
-    testFixturesImplementation("org.springframework.boot:spring-boot-starter-webflux")
-    testFixturesImplementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    testFixturesImplementation("org.springframework:spring-web")
     testFixturesImplementation(project(":shared"))
     testFixturesImplementation("org.springframework.boot:spring-boot-starter-test")
     testFixturesImplementation("org.springframework.boot:spring-boot-test")
