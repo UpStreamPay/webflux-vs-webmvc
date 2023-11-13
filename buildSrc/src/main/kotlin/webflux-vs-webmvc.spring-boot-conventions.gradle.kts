@@ -15,7 +15,7 @@ jib {
         image = "eclipse-temurin:21"
     }
     container {
-        jvmFlags = listOf("-XX:+PrintFlagsFinal", "-XX:+PrintCommandLineFlags", "-XX:+AlwaysActAsServerClassMachine")
+        jvmFlags = listOf("-XX:+PrintCommandLineFlags", "-XX:+AlwaysActAsServerClassMachine")
     }
     pluginExtensions {
         pluginExtension {

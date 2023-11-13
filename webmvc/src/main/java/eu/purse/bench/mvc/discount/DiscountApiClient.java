@@ -16,8 +16,8 @@ public class DiscountApiClient {
 
     public DiscountApiClient(RestClient.Builder builder, MyConfiguration configuration) {
         var connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
-                .setMaxConnPerRoute(1000)
-                .setMaxConnTotal(1000)
+                .setMaxConnPerRoute(10_000)
+                .setMaxConnTotal(10_000)
                 .build();
         var httpClient = HttpClientBuilder.create()
                 .useSystemProperties()
