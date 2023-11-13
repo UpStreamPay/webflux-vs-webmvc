@@ -21,8 +21,8 @@ scrape_configs:
           - localhost:9090
   - job_name: app
     honor_timestamps: true
-    scrape_interval: 15s
-    scrape_timeout: 10s
+    scrape_interval: 5s
+    scrape_timeout: 4s
     metrics_path: /actuator/prometheus
     scheme: http
     static_configs:

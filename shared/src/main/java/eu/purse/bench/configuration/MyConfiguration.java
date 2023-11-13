@@ -6,7 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "my")
 public class MyConfiguration {
-    @NotNull URI discountApiUri;
+    @NotNull
+    URI discountApiUri;
 
     public URI getDiscountApiUri() {
         return discountApiUri;

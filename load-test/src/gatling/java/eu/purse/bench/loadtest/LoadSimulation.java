@@ -64,8 +64,8 @@ public class LoadSimulation extends Simulation {
 
     {
         setUp(users.injectOpen(incrementUsersPerSec(100)
-                        .times(5)
-                        .eachLevelLasting(20)
+                        .times(11)
+                        .eachLevelLasting(5)
                         .separatedByRampsLasting(20)
                         .startingFrom(10))
                 .protocols(httpProtocol));

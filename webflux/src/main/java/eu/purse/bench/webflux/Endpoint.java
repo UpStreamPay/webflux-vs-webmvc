@@ -7,7 +7,6 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 
 import eu.purse.bench.model.Customer;
 import eu.purse.bench.model.Product;
-import eu.purse.bench.model.PurchaseOrder;
 import eu.purse.bench.model.PurchaseOrderApplication;
 import eu.purse.bench.model.discount.DiscountApplication;
 import eu.purse.bench.webflux.discount.DiscountApiClient;
@@ -19,7 +18,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuples;
 
 @RestController
 public class Endpoint {

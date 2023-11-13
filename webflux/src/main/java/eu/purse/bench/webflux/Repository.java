@@ -1,17 +1,12 @@
 package eu.purse.bench.webflux;
 
-import static java.util.Map.of;
-
 import eu.purse.bench.model.Customer;
 import eu.purse.bench.model.Product;
 import eu.purse.bench.model.PurchaseOrder;
 import eu.purse.bench.model.PurchaseOrderApplication;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import org.reactivestreams.Publisher;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,15 +28,12 @@ public class Repository {
                         row.get("id", Long.class),
                         row.get("name", String.class),
                         row.get("unit_price", Integer.class),
-                                row.get("brand_name", String.class)
-                        ))
+                        row.get("brand_name", String.class)))
                 .one();
-
     }
 
     public Mono<Customer> getCustomerById(Long id) {
-        return client.sql(
-                "SELECT id, first_name, last_name, email, birth_date FROM customer WHERE id = :id")
+        return client.sql("SELECT id, first_name, last_name, email, birth_date FROM customer WHERE id = :id")
                 .bind("id", id)
                 .map((row, metadata) -> new Customer(
                         row.get("id", Long.class),
@@ -54,32 +46,32 @@ public class Repository {
 
     @Transactional
     public Mono<Long> createOrder(PurchaseOrderApplication order, Integer totalAmount, Integer discountAmount) {
-        return client.sql("INSERT INTO purchase_order (customer_id, total_amount, discount_amount) VALUES (:customer_id, :total_amount, :discount_amount) RETURNING id")
+        return client.sql(
+                        "INSERT INTO purchase_order (customer_id, total_amount, discount_amount) VALUES (:customer_id, :total_amount, :discount_amount) RETURNING id")
                 .bind("customer_id", order.customerId())
                 .bind("total_amount", totalAmount)
                 .bind("discount_amount", discountAmount)
-//                .filter(statement -> statement.returnGeneratedValues("id"))
+                //                .filter(statement -> statement.returnGeneratedValues("id"))
                 .map((row, metadata) -> row.get("id", Long.class))
                 .one()
                 .flatMap(id -> {
                     AtomicInteger rank = new AtomicInteger(0);
                     return Flux.fromIterable(order.items())
                             .flatMap(item -> client.sql(
-                        """
+                                            """
                     INSERT INTO purchase_order_item (order_id, rank, product_id, quantity, unit_price)
                     SELECT :order_id, :rank, product.id, :quantity, product.unit_price
                     FROM product
                     WHERE product.id = :product_id
                     """)
-                                            .bind("order_id", id)
-                                            .bind("rank", rank.getAndIncrement())
-                                            .bind("quantity", item.quantity())
-                                            .bind("product_id", item.productId())
-                                            .fetch()
-                                            .rowsUpdated()
-                            )
+                                    .bind("order_id", id)
+                                    .bind("rank", rank.getAndIncrement())
+                                    .bind("quantity", item.quantity())
+                                    .bind("product_id", item.productId())
+                                    .fetch()
+                                    .rowsUpdated())
                             .then(Mono.just(id));
-                    });
+                });
     }
 
     public Mono<PurchaseOrder> getOrderById(Long id) {
@@ -88,7 +80,7 @@ public class Repository {
         final AtomicReference<Integer> discountAmount = new AtomicReference<>();
 
         return client.sql(
-                """
+                        """
                 SELECT
                     customer.id AS customer_id,
                     customer.first_name AS customer_first_name,
@@ -108,8 +100,7 @@ public class Repository {
                 JOIN customer ON customer.id = purchase_order.customer_id
                 WHERE purchase_order.id = :id
                 ORDER BY purchase_order_item.rank
-                """
-                )
+                """)
                 .bind("id", id)
                 .map((row, metadata) -> {
                     if (customer.get() == null) {
@@ -138,7 +129,7 @@ public class Repository {
 
     public Mono<Void> updateOrderDiscountAmount(Long orderId, Integer discountAmount) {
         return client.sql(
-                "UPDATE purchase_order SET total_amount = (total_amount - :discount_amount), discount_amount = :discount_amount WHERE id = :id")
+                        "UPDATE purchase_order SET total_amount = (total_amount - :discount_amount), discount_amount = :discount_amount WHERE id = :id")
                 .bind("discount_amount", discountAmount)
                 .bind("id", orderId)
                 .fetch()
