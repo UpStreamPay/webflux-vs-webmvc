@@ -63,10 +63,10 @@ public class LoadSimulation extends Simulation {
     ScenarioBuilder users = scenario("Users").exec(browse);
 
     {
-        setUp(users.injectOpen(incrementUsersPerSec(130)
-                        .times(5)
-                        .eachLevelLasting(30)
-                        .separatedByRampsLasting(30)
+        setUp(users.injectOpen(incrementUsersPerSec(100)
+                        .times(11)
+                        .eachLevelLasting(5)
+                        .separatedByRampsLasting(20)
                         .startingFrom(10))
                 .protocols(httpProtocol));
     }
